@@ -1,0 +1,36 @@
+kitex:
+  service: "system"
+  address: ":9001"
+  log_level: info
+  log_file_name: "log/kitex.log"
+  log_max_size: 10
+  log_max_age: 3
+  log_max_backups: 50
+
+registry:
+  registry_address:
+    - 127.0.0.1:8500
+  username: ""
+  password: ""
+
+mysql:
+  dsn: "root:root@tcp(127.0.0.1:3306)/saas_system?charset=utf8mb4&parseTime=True&loc=Local"
+
+redis:
+  address: "127.0.0.1:6379"
+  username: ""
+  password: ""
+  db: 0
+
+casbin:
+  model_text: |
+    [request_definition]
+    r = sub, obj, act
+    [policy_definition]
+    p = sub, obj, act
+    [role_definition]
+    g = _, _
+    [policy_effect]
+    e = some(where (p.eft == allow))
+    [matchers]
+    m = r.sub == p.sub && keyMatch2(r.obj,p.obj) && r.act == p.act
